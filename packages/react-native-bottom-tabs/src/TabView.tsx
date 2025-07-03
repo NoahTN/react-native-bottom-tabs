@@ -161,10 +161,10 @@ interface Props<Route extends BaseRoute> {
      */
     fontSize?: number;
   };
+  customStyles?: ReadonlyArray<Readonly<{}>>;
+  hideTabBar?: boolean;
 }
-
 const ANDROID_MAX_TABS = 100;
-
 const TabView = <Route extends BaseRoute>({
   navigationState,
   renderScene,
@@ -192,6 +192,8 @@ const TabView = <Route extends BaseRoute>({
   tabBar: renderCustomTabBar,
   tabBarStyle,
   tabLabelStyle,
+  customStyles,
+  hideTabBar,
   ...props
 }: Props<Route>) => {
   // @ts-ignore
@@ -329,12 +331,12 @@ const TabView = <Route extends BaseRoute>({
       <NativeTabView
         {...props}
         {...tabLabelStyle}
-        style={styles.fullWidth}
+        style={[styles.fullWidth, ...(customStyles as [])]}
         items={items}
         // When rendering a custom tab bar, icons can be React elements, which will not be properly resolved.
         icons={renderCustomTabBar ? undefined : resolvedIconAssets}
         selectedPage={focusedKey}
-        tabBarHidden={!!renderCustomTabBar}
+        tabBarHidden={!!renderCustomTabBar || hideTabBar}
         onTabLongPress={handleTabLongPress}
         onPageSelected={handlePageSelected}
         onTabBarMeasured={handleTabBarMeasured}
