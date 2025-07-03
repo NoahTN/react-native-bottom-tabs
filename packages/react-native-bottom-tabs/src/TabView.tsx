@@ -325,7 +325,6 @@ const TabView = <Route extends BaseRoute>({
       });
     }
   }, [renderCustomTabBar]);
-  console.warn([hideTabBar, customStyles]);
   return (
     <BottomTabBarHeightContext.Provider value={tabBarHeight}>
       <NativeTabView
